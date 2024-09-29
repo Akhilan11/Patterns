@@ -17,5 +17,6 @@ const checkJwt = jwt({
     algorithms: ['RS256']
 });
 
+
 // Export the middleware function
 module.exports = checkJwt;
