@@ -1,20 +1,21 @@
-const { expressjwt: jwt } = require("express-jwt");
+// middleware/auth.js
 
+const { expressjwt: jwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
+require('dotenv').config(); // Load environment variables if not already loaded
 
-// JWT middleware configuration
-const jwtCheck = jwt({
-  secret: jwksRsa.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    // Replace <YOUR_AUTH0_DOMAIN> with your actual Auth0 domain
-    jwksUri: `https://<YOUR_AUTH0_DOMAIN>/.well-known/jwks.json`
-  }),
-  audience: '<YOUR_API_IDENTIFIER>', // Replace with your actual API Identifier
-  issuer: `https://<YOUR_AUTH0_DOMAIN>/`, // Replace with your actual Auth0 domain
-  algorithms: ['RS256']
+// JWT Middleware to validate tokens
+const checkJwt = jwt({
+    secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
+    }),
+    audience: process.env.AUTH0_AUDIENCE,
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+    algorithms: ['RS256']
 });
 
 // Export the middleware function
-module.exports = jwtCheck;
+module.exports = checkJwt;
