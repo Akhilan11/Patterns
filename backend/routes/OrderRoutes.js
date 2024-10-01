@@ -30,6 +30,16 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
+// Get all orders (Admin access)
+router.get('/', async (req, res) => {
+    try {
+      const orders = await Order.find().populate('items.productId'); // Fetch all orders and populate product details
+      res.status(200).json(orders);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching all orders', error });
+    }
+});
+
 // Update order status (e.g., marking it as shipped or delivered)
 router.put('/:orderId', async (req, res) => {
   try {
