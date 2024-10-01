@@ -1,0 +1,35 @@
+<div *ngIf="orders.length > 0">
+    <h3>Your Orders</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Items</th>
+          <th>Total Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{ order._id }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let item of order.items">
+                {{ item.productId.name }} (x{{ item.quantity }})
+              </li>
+            </ul>
+          </td>
+          <td>{{ order.totalPrice | currency }}</td>
+          <td>{{ order.status }}</td>
+          <td>
+            <button *ngIf="order.status === 'pending'" (click)="cancelOrder(order._id)">Cancel Order</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="orders.length === 0">
+    <p>You have no orders.</p>
+  </div>
+  

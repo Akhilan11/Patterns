@@ -1,0 +1,40 @@
+<div class="home-container" *ngIf="auth.user$ | async as user">
+    <h2>Welcome, {{ user.name }}</h2>
+    <img [src]="user.picture" [alt]="user.name" />
+    <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+    <button (click)="viewCart()">Cart</button>
+    <button (click)="viewOrders()">Orders</button>
+</div>
+
+<!-- Table to display the products -->
+<div class="product-table" *ngIf="products.length > 0">
+  <h3>Available Products</h3>
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.price | currency }}</td>
+        <td>{{ product.category }}</td>
+        <td>
+          <img [src]="product.imageUrl" alt="{{ product.name }}" width="50" height="50">
+        </td>
+        <td><button (click)="viewProduct(product._id)">View product</button></td>
+        <td><button (click)="deleteProduct(product._id)">Delete product</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="products.length === 0">
+  <p>No products available.</p>
+</div>
