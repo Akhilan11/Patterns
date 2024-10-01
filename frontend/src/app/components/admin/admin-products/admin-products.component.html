@@ -1,7 +1,7 @@
 <div class="container">
     <h1>All Products</h1>
     
-    <!-- Add New Product Form
+    <!-- Add New Product Form -->
     <form (ngSubmit)="addProduct()" #productForm="ngForm">
         <div>
             <label for="imageUrl">Image URL</label>
@@ -24,7 +24,7 @@
             <input type="text" id="category" [(ngModel)]="newProduct.category" name="category" placeholder="Category" required>
         </div>
         <button type="submit" [disabled]="!productForm.form.valid">Add Product</button>
-    </form> -->
+    </form>
 
     <!-- Products Table -->
     <table>
