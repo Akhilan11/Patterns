@@ -1,0 +1,57 @@
+<div class="container">
+    <h3>All Orders</h3>
+  
+    <!-- Orders Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Items</th>
+          <th>Total Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <!-- Order ID -->
+          <td>{{ order._id }}</td>
+  
+          <!-- Items List -->
+          <td>
+            <ul>
+              <li *ngFor="let item of order.items">
+                {{ item.productId.name }} (x{{ item.quantity }})
+              </li>
+            </ul>
+          </td>
+  
+          <!-- Total Price -->
+          <td>{{ order.totalPrice | currency }}</td>
+  
+          <!-- Order Status with inline editing -->
+          <td>
+            <div *ngIf="editingOrderId !== order._id">
+              <p>{{ order.status }}</p>
+            </div>
+            <div *ngIf="editingOrderId === order._id">
+              <select [(ngModel)]="order.status">
+                <option value="pending">Pending</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+          </td>
+  
+          <!-- Actions: Edit, Save, and Cancel -->
+          <td>
+            <button type="button" (click)="editOrder(order._id)" *ngIf="editingOrderId !== order._id">Edit</button>
+            <button type="button" (click)="updateOrder(order)" *ngIf="editingOrderId === order._id">Save</button>
+            <button type="button" (click)="cancelEdit()" *ngIf="editingOrderId === order._id">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+  

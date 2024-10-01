@@ -17,6 +17,10 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { CartComponent } from './components/cart/cart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrdersComponent } from './components/orders/orders.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminProductsComponent } from './components/admin/admin-products/admin-products.component';
+import { AdminOrdersComponent } from './components/admin/admin-orders/admin-orders.component';
+import { ViewOrdersComponent } from './components/manufacturer/view-orders/view-orders.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,11 @@ import { OrdersComponent } from './components/orders/orders.component';
     ProductsComponent,
     ProductDetailComponent,
     CartComponent,
-    OrdersComponent
+    OrdersComponent,
+    AdminDashboardComponent,
+    AdminProductsComponent,
+    AdminOrdersComponent,
+    ViewOrdersComponent
   ],
   imports: [
     BrowserModule,

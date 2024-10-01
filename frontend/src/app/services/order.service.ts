@@ -20,6 +20,11 @@ export class OrderService {
   getOrders(userId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${userId}`);
   }
+  
+  // Get all orders
+  getAllOrders(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`);
+  }
 
   // Update order status (for admin or shipment purposes)
   updateOrder(orderId: string, status: string): Observable<any> {

@@ -14,19 +14,11 @@ export class OrdersComponent implements OnInit {
   constructor(private orderService: OrderService, public auth: AuthService) { }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe({
-      next: (user) => {
-        if (user) {
-          this.userId = user.sub;
-          this.fetchOrders();
-        }
-      },
-      error: (err) => console.error('Error fetching user', err)
-    });
+    this.fetchOrders();
   }
 
   fetchOrders(): void {
-    this.orderService.getOrders(this.userId).subscribe({
+    this.orderService.getAllOrders().subscribe({
       next: (orders) => {
         this.orders = orders;
         console.log('Fetched Orders:', this.orders);
