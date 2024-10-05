@@ -1,5 +1,5 @@
 const express = require('express');
-const Product = require('../models/ProductSchema'); // Make sure this path is correct
+const Product = require('../models/ProductSchema'); // Add this line
 const router = express.Router();
 
 // Create a product - ADMIN ROUTE

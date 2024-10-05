@@ -7,6 +7,7 @@ const productRoutes = require('./routes/ProductRoutes')
 const cartRoutes = require('./routes/CartRoutes')
 const orderRoutes = require('./routes/OrderRoutes')
 const adminProductRoutes = require('./routes/AdminProductRoutes')
+const addressRoutes = require('./routes/AddressRoutes')
 
 // Load environment variables
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(express.json()); // To parse JSON bodies
 // Routes
 app.use('/api', productRoutes); // Use product routes under /api
 app.use('/api', cartRoutes); // Use cart routes under /api
+app.use('/api', addressRoutes); // Use cart routes under /api
 app.use('/api/orders', orderRoutes); // Use order routes under /api
 
 app.use('/api/admin', adminProductRoutes); // Use product routes under /api

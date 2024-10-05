@@ -14,10 +14,10 @@ router.get('/products', async (req, res) => {
 
 // Create a new product
 router.post('/products', async (req, res) => {
-  const { name, description, price, category, imageUrl } = req.body;
+  const { name, description, price, category, imageUrl,quantity } = req.body;
 
   try {
-    const newProduct = new Product({ name, description, price, category, imageUrl });
+    const newProduct = new Product({ name, description, price, category, imageUrl,quantity });
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (error) {
