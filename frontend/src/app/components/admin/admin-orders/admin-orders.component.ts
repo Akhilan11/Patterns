@@ -10,6 +10,11 @@ export class AdminOrdersComponent implements OnInit {
   
   orders: any[] = [];
   editingOrderId: string | null = null;  // Track currently editing order
+  totalOrderAmount: number = 0;  // Store total amount of all orders
+  totalOrders: number = 0;  // Total number of orders
+  pendingOrders: number = 0;  // Number of pending orders
+  shippedOrders: number = 0;  // Number of shipped orders
+  deliveredOrders: number = 0;  // Number of delivered orders
 
   constructor(private orderService: OrderService) { }
 
@@ -22,9 +27,19 @@ export class AdminOrdersComponent implements OnInit {
     this.orderService.getAllOrders().subscribe({
       next: (orders) => {
         this.orders = orders;
+        this.calculateOrderStatistics();  // Calculate all statistics after fetching orders
       },
       error: (err) => console.error('Error fetching orders', err),
     });
+  }
+
+  // Calculate the total amount, and count orders by status
+  calculateOrderStatistics(): void {
+    this.totalOrderAmount = this.orders.reduce((acc, order) => acc + order.totalPrice, 0);
+    this.totalOrders = this.orders.length;
+    this.pendingOrders = this.orders.filter(order => order.status === 'pending').length;
+    this.shippedOrders = this.orders.filter(order => order.status === 'shipped').length;
+    this.deliveredOrders = this.orders.filter(order => order.status === 'delivered').length;
   }
 
   // Edit order status
@@ -40,7 +55,7 @@ export class AdminOrdersComponent implements OnInit {
 
   // Save order status update
   saveOrder(order: any): void {
-    this.orderService.updateOrder(order._id, order.status).subscribe({
+    this.orderService.updateOrderStatus(order._id, order.status).subscribe({
       next: () => {
         alert('Order status updated successfully');
         this.editingOrderId = null;  // Exit edit mode

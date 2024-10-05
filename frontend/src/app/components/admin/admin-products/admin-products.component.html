@@ -1,103 +1,117 @@
 <div class="container">
-    <h1>All Products</h1>
-    
-    <!-- Add New Product Form -->
-    <form (ngSubmit)="addProduct()" #productForm="ngForm">
-        <div>
-            <label for="imageUrl">Image URL</label>
-            <input type="text" id="imageUrl" [(ngModel)]="newProduct.imageUrl" name="imageUrl" placeholder="Image URL" required>
-        </div>
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" [(ngModel)]="newProduct.name" name="name" placeholder="Product Name" required>
-        </div>
-        <div>
-            <label for="description">Description</label>
-            <input type="text" id="description" [(ngModel)]="newProduct.description" name="description" placeholder="Product Description" required>
-        </div>
-        <div>
-            <label for="price">Price</label>
-            <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" placeholder="Price" required>
-        </div>
-        <div>
-            <label for="category">Category</label>
-            <input type="text" id="category" [(ngModel)]="newProduct.category" name="category" placeholder="Category" required>
-        </div>
-        <button type="submit" [disabled]="!productForm.form.valid">Add Product</button>
-    </form>
+  <h1>All Products</h1>
+  
+  <!-- Add New Product Form -->
+  <form (ngSubmit)="addProduct()" #productForm="ngForm">
+    <div>
+      <label for="imageUrl">Image URL</label>
+      <input type="text" id="imageUrl" [(ngModel)]="newProduct.imageUrl" name="imageUrl" placeholder="Image URL" required>
+    </div>
+    <div>
+      <label for="name">Name</label>
+      <input type="text" id="name" [(ngModel)]="newProduct.name" name="name" placeholder="Product Name" required>
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <input type="text" id="description" [(ngModel)]="newProduct.description" name="description" placeholder="Product Description" required>
+    </div>
+    <div>
+      <label for="price">Price</label>
+      <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" placeholder="Price" required>
+    </div>
+    <div>
+      <label for="category">Category</label>
+      <input type="text" id="category" [(ngModel)]="newProduct.category" name="category" placeholder="Category" required>
+    </div>
+    <div>
+      <label for="quantity">Quantity</label> <!-- New Quantity Field -->
+      <input type="number" id="quantity" [(ngModel)]="newProduct.quantity" name="quantity" placeholder="Quantity" required min="0">
+    </div>
+    <button type="submit" [disabled]="!productForm.form.valid">Add Product</button>
+  </form>
 
-    <!-- Products Table -->
-    <table>
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Price</th>
-          <th>Category</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <!-- Product Image -->
-          <td>
-            <img [src]="product.imageUrl" alt="{{ product.name }}" width="100" height="100">
-          </td>
+  <!-- Products Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Quantity</th> <!-- New Quantity Column -->
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <!-- Product Image -->
+        <td>
+          <img [src]="product.imageUrl" alt="{{ product.name }}" width="100" height="100">
+        </td>
+    
+        <!-- Product Name -->
+        <td>
+          <div *ngIf="editingProductId !== product._id">
+            <p>{{ product.name }}</p>
+          </div>
+          <div *ngIf="editingProductId === product._id">
+            <input type="text" [(ngModel)]="product.name" placeholder="Product Name">
+          </div>
+        </td>
+    
+        <!-- Product Description -->
+        <td>
+          <div *ngIf="editingProductId !== product._id">
+            <p>{{ product.description }}</p>
+          </div>
+          <div *ngIf="editingProductId === product._id">
+            <input type="text" [(ngModel)]="product.description" placeholder="Product Description">
+          </div>
+        </td>
+    
+        <!-- Product Price -->
+        <td>
+          <div *ngIf="editingProductId !== product._id">
+            <p>{{ product.price }}</p>
+          </div>
+          <div *ngIf="editingProductId === product._id">
+            <input type="number" [(ngModel)]="product.price" placeholder="Price">
+          </div>
+        </td>
+    
+        <!-- Product Category -->
+        <td>
+          <div *ngIf="editingProductId !== product._id">
+            <p>{{ product.category }}</p>
+          </div>
+          <div *ngIf="editingProductId === product._id">
+            <input type="text" [(ngModel)]="product.category" placeholder="Category">
+          </div>
+        </td>
+        
+        <!-- Product Quantity -->
+        <td>
+          <div *ngIf="editingProductId !== product._id">
+            <p>{{ product.quantity }}</p>
+          </div>
+          <div *ngIf="editingProductId === product._id">
+            <input type="number" [(ngModel)]="product.quantity" placeholder="Quantity" min="0">
+          </div>
+        </td>
+    
+        <!-- Action Buttons -->
+        <td>
+          <!-- Edit Button -->
+          <button type="button" (click)="editProduct(product._id)" *ngIf="editingProductId !== product._id">Edit</button>
   
-          <!-- Product Name -->
-          <td>
-            <div *ngIf="editingProductId !== product._id">
-              <p>{{ product.name }}</p>
-            </div>
-            <div *ngIf="editingProductId === product._id">
-              <input type="text" [(ngModel)]="product.name" placeholder="Product Name">
-            </div>
-          </td>
+          <!-- Delete Button -->
+          <button type="button" (click)="deleteProduct(product._id)" *ngIf="editingProductId !== product._id">Delete</button>
   
-          <!-- Product Description -->
-          <td>
-            <div *ngIf="editingProductId !== product._id">
-              <p>{{ product.description }}</p>
-            </div>
-            <div *ngIf="editingProductId === product._id">
-              <input type="text" [(ngModel)]="product.description" placeholder="Product Description">
-            </div>
-          </td>
-  
-          <!-- Product Price -->
-          <td>
-            <div *ngIf="editingProductId !== product._id">
-              <p>{{ product.price }}</p>
-            </div>
-            <div *ngIf="editingProductId === product._id">
-              <input type="number" [(ngModel)]="product.price" placeholder="Price">
-            </div>
-          </td>
-  
-          <!-- Product Category -->
-          <td>
-            <div *ngIf="editingProductId !== product._id">
-              <p>{{ product.category }}</p>
-            </div>
-            <div *ngIf="editingProductId === product._id">
-              <input type="text" [(ngModel)]="product.category" placeholder="Category">
-            </div>
-          </td>
-  
-          <!-- Action Buttons -->
-          <td>
-            <!-- Edit Button -->
-            <button type="button" (click)="editProduct(product._id)" *ngIf="editingProductId !== product._id">Edit</button>
-  
-            <!-- Delete Button -->
-            <button type="button" (click)="deleteProduct(product._id)" *ngIf="editingProductId !== product._id">Delete</button>
-  
-            <!-- Save Button -->
-            <button type="button" (click)="updateProduct(product)" *ngIf="editingProductId === product._id">Save</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+          <!-- Save Button -->
+          <button type="button" (click)="updateProduct(product)" *ngIf="editingProductId === product._id">Save</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

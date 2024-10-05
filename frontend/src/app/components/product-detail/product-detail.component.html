@@ -1,11 +1,12 @@
 <div *ngIf="product">
-    <h2>{{ product.name }}</h2>
-    <img [src]="product.imageUrl" alt="{{ product.name }}" width="200" height="200">
-    <p><strong>Description:</strong> {{ product.description }}</p>
-    <p><strong>Price:</strong> {{ product.price | currency }}</p>
-    <p><strong>Category:</strong> {{ product.category }}</p>
-    <button (click)="addToCart()">Add to Cart</button>
-  </div>
-  <div *ngIf="!product">
-    <p>Loading product details...</p>
-  </div>
+  <h2>{{ product.name }}</h2>
+  <img [src]="product.imageUrl" alt="{{ product.name }}" width="200" height="200">
+  <p><strong>Description:</strong> {{ product.description }}</p>
+  <p><strong>Price:</strong> {{ product.price | currency }}</p>
+  <p><strong>Category:</strong> {{ product.category }}</p>
+  <p *ngIf="product.quantity <= 0" style="color: red;">Out of Stock</p>
+  <button (click)="addToCart()" [disabled]="product.quantity <= 0">Add to Cart</button>
+</div>
+<div *ngIf="!product">
+  <p>Loading product details...</p>
+</div>

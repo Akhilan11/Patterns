@@ -43,7 +43,7 @@ export class ViewOrdersComponent implements OnInit {
   // Update order status
   updateOrder(order: any): void {
     this.editingOrderId = null; // Exit edit mode
-    this.orderService.updateOrder(order._id, order.status).subscribe({
+    this.orderService.updateOrderStatus(order._id, order.status).subscribe({
       next: () => {
         alert('Order status updated successfully');
         this.fetchOrders(); // Refresh the orders after updating status

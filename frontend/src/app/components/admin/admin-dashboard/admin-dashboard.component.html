@@ -1,1 +1,23 @@
-<p>admin-dashboard works!</p>
+
+<button (click) = "goToOrders()">Orders</button>
+<button (click) = "goToProducts()">Products</button>
+
+<div class="dashboard-statistics">
+    <h3>Order Statistics</h3>
+    <div class="stat">
+      <h4>Total Amount of All Orders: {{ totalOrderAmount | currency }}</h4>
+    </div>
+    <div class="stat">
+      <p>Total Orders: {{ totalOrders }}</p>
+    </div>
+    <div class="stat">
+      <p>Pending Orders: {{ pendingOrders }}</p>
+    </div>
+    <div class="stat">
+      <p>Shipped Orders: {{ shippedOrders }}</p>
+    </div>
+    <div class="stat">
+      <p>Delivered Orders: {{ deliveredOrders }}</p>
+    </div>
+</div>
+  

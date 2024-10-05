@@ -18,17 +18,24 @@ export class OrdersComponent implements OnInit {
   }
 
   fetchOrders(): void {
-    this.orderService.getAllOrders().subscribe({
-      next: (orders) => {
-        this.orders = orders;
-        console.log('Fetched Orders:', this.orders);
-      },
-      error: (err) => console.error('Error fetching orders', err),
+    // Ensure you pass the userId to fetch orders for that user
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.userId = user.sub; // Fetch the user ID from Auth0
+        this.orderService.getOrders(this.userId).subscribe({
+          next: (orders) => {
+            this.orders = orders;
+            console.log('Fetched Orders:', this.orders);
+          },
+          error: (err) => console.error('Error fetching orders', err),
+        });
+      }
     });
   }
 
   cancelOrder(orderId: string): void {
-    this.orderService.deleteOrder(orderId).subscribe({
+    // Call the order service to update the order status to "cancelled"
+    this.orderService.updateOrderStatus(orderId, { status: 'cancelled' }).subscribe({
       next: () => {
         alert('Order cancelled successfully');
         this.fetchOrders(); // Refresh the orders after cancellation

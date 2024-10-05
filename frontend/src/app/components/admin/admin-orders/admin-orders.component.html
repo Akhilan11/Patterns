@@ -1,57 +1,70 @@
 <div *ngIf="orders.length > 0">
-    <h3>Your Orders</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Items</th>
-          <th>Total Price</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let order of orders">
-          <td>{{ order._id }}</td>
-          <td>
-            <ul>
-              <li *ngFor="let item of order.items">
-                {{ item.productId.name }} (x{{ item.quantity }})
-              </li>
-            </ul>
-          </td>
-          <td>{{ order.totalPrice | currency }}</td>
-  
-          <!-- Status -->
-          <td>
-            <div *ngIf="editingOrderId !== order._id">
-              <p>{{ order.status }}</p>
-            </div>
-            <div *ngIf="editingOrderId === order._id">
-              <select [(ngModel)]="order.status">
-                <option value="pending">Pending</option>
-                <option value="shipped">Shipped</option>
-                <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-          </td>
-  
-          <!-- Actions: Edit/Save buttons -->
-          <td>
-            <button *ngIf="editingOrderId !== order._id" (click)="editOrder(order._id)">Edit</button>
-            <button *ngIf="editingOrderId === order._id" (click)="saveOrder(order)">Save</button>
-            <button *ngIf="editingOrderId === order._id" (click)="cancelEdit()">Cancel</button>
+  <h3>Your Orders</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Order Date</th>  <!-- New column for Order Date -->
+        <th>Items</th>
+        <th>Total Price</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order._id }}</td>
+
+        <!-- Display the order date using the Angular date pipe -->
+        <td>{{ order.createdAt | date:'short' }}</td>  <!-- Format as short date -->
+
+        <td>
+          <ul>
+            <li *ngFor="let item of order.items">
+              {{ item.productId.name }} (x{{ item.quantity }})
+            </li>
+          </ul>
+        </td>
+        <td>{{ order.totalPrice | currency }}</td>
+
+        <!-- Status -->
+        <td>
+          <div *ngIf="editingOrderId !== order._id">
+            <p>{{ order.status }}</p>
+          </div>
+          <div *ngIf="editingOrderId === order._id">
+            <select [(ngModel)]="order.status">
+              <option value="pending">Pending</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </td>
+
+        <!-- Actions: Edit/Save buttons -->
+        <td>
+          <button *ngIf="editingOrderId !== order._id" (click)="editOrder(order._id)">Edit</button>
+          <button *ngIf="editingOrderId === order._id" (click)="saveOrder(order)">Save</button>
+          <button *ngIf="editingOrderId === order._id" (click)="cancelEdit()">Cancel</button>
         </td>
         <td>
-            <button *ngIf="order.status === 'pending' && editingOrderId !== order._id" (click)="cancelOrder(order._id)">Cancel Order</button>
+          <button *ngIf="order.status === 'pending' && editingOrderId !== order._id" (click)="cancelOrder(order._id)">Cancel Order</button>
         </td>
-        </tr>
-      </tbody>
-    </table>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Display order statistics -->
+  <div>
+    <h4>Total Amount of All Orders: {{ totalOrderAmount | currency }}</h4>
+    <p>Total Orders: {{ totalOrders }}</p>
+    <p>Pending Orders: {{ pendingOrders }}</p>
+    <p>Shipped Orders: {{ shippedOrders }}</p>
+    <p>Delivered Orders: {{ deliveredOrders }}</p>
   </div>
-  
-  <div *ngIf="orders.length === 0">
-    <p>You have no orders.</p>
-  </div>
-  
+</div>
+
+<div *ngIf="orders.length === 0">
+  <p>You have no orders.</p>
+</div>

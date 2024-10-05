@@ -26,9 +26,9 @@ export class OrderService {
     return this.http.get<any[]>(`${this.apiUrl}`);
   }
 
-  // Update order status (for admin or shipment purposes)
-  updateOrder(orderId: string, status: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${orderId}`, { status });
+  // Method to update the order status
+  updateOrderStatus(orderId: string, statusData: { status: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${orderId}`, statusData);
   }
 
   // Delete an order (optional, based on your requirements)
