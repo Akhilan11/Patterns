@@ -10,3 +10,48 @@
 <div *ngIf="!product">
   <p>Loading product details...</p>
 </div>
+
+<!-- Display Reviews -->
+<h3>Product Reviews</h3>
+<div *ngIf="reviews.length > 0; else noReviews">
+  <div *ngFor="let review of reviews" class="review">
+    <strong>{{ review.username }}</strong>
+    <p>Rating: {{ review.rating }} / 5</p>
+    <p>{{ review.comment }}</p>
+
+    <!-- Edit and Delete buttons (only if review belongs to the logged-in user) -->
+    <div *ngIf="review.userId === userId">
+      <button (click)="editReview(review)">Edit</button>
+      <button (click)="deleteReview(review._id)">Delete</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #noReviews>
+  <p>No reviews yet. Be the first to review this product!</p>
+</ng-template>
+
+<!-- Add/Edit a Review -->
+<div *ngIf="user">
+  <h3>{{ editMode ? 'Edit Your Review' : 'Add Your Review' }}</h3>
+  <form (ngSubmit)="addReview()">
+    <label for="rating">Rating:</label>
+    <select [(ngModel)]="reviewData.rating" name="rating" required>
+      <option [value]="1">1</option>
+      <option [value]="2">2</option>
+      <option [value]="3">3</option>
+      <option [value]="4">4</option>
+      <option [value]="5">5</option>
+    </select>
+
+    <label for="comment">Comment:</label>
+    <textarea [(ngModel)]="reviewData.comment" name="comment" required></textarea>
+
+    <button type="submit">{{ editMode ? 'Update Review' : 'Submit Review' }}</button>
+    <button type="button" (click)="resetReviewForm()" *ngIf="editMode">Cancel</button>
+  </form>
+</div>
+
+<div *ngIf="!user">
+  <p>Please log in to add a review.</p>
+</div>

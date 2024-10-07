@@ -21,6 +21,8 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard/admi
 import { AdminProductsComponent } from './components/admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './components/admin/admin-orders/admin-orders.component';
 import { ViewOrdersComponent } from './components/manufacturer/view-orders/view-orders.component';
+import { ReviewComponent } from './components/review/review.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { ViewOrdersComponent } from './components/manufacturer/view-orders/view-
     AdminDashboardComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
-    ViewOrdersComponent
+    ViewOrdersComponent,
+    ReviewComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
